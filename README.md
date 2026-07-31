@@ -1,5 +1,9 @@
 # Telegram News Summary Bot
 
+> **DEPRECATED.** This repository is archived and no longer maintained.
+> It is kept read-only for reference; its GDS anchor records
+> `lifecycle: archived` under `portfolio:archived-projects`.
+
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![aiogram](https://img.shields.io/badge/aiogram-3.x-blue.svg)](https://aiogram.dev)
