@@ -1,8 +1,6 @@
 import re
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
-from typing import Optional
-
+from datetime import date, timedelta
 
 MONTHS_RU = {
     "января": 1, "февраля": 2, "марта": 3, "апреля": 4,
@@ -18,7 +16,7 @@ MONTHS_RU = {
 class ParsedQuery:
     start_date: date
     end_date: date
-    topic: Optional[str]
+    topic: str | None
 
 
 def parse_user_input(text: str) -> ParsedQuery:
@@ -26,9 +24,9 @@ def parse_user_input(text: str) -> ParsedQuery:
     original_text = text
     today = date.today()
 
-    start_date: Optional[date] = None
-    end_date: Optional[date] = None
-    matched_span: Optional[tuple[int, int]] = None
+    start_date: date | None = None
+    end_date: date | None = None
+    matched_span: tuple[int, int] | None = None
 
     keywords_single = {
         "сегодня": 0,
@@ -124,7 +122,7 @@ def parse_user_input(text: str) -> ParsedQuery:
         start_date = today
         end_date = today
 
-    topic: Optional[str] = None
+    topic: str | None = None
     if matched_span:
         before = original_text[:matched_span[0]]
         after = original_text[matched_span[1]:]

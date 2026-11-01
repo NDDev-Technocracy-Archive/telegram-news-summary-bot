@@ -1,12 +1,11 @@
 import json
 import logging
 from dataclasses import dataclass
-from typing import Optional
 
 from openai import AsyncOpenAI
 
-from src.config import settings
 from src.channel_parser import TelegramPost
+from src.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +33,7 @@ def clean_json_response(text: str) -> str:
     elif text.startswith("```"):
         text = text[3:]
 
-    if text.endswith("```"):
-        text = text[:-3]
+    text = text.removesuffix("```")
 
     return text.strip()
 
@@ -48,7 +46,7 @@ def truncate_text(text: str, max_length: int = 500) -> str:
 
 async def analyze_posts(
     posts: list[TelegramPost],
-    topic: Optional[str] = None
+    topic: str | None = None
 ) -> AnalysisResult:
     if not posts:
         return AnalysisResult(
@@ -148,7 +146,7 @@ async def analyze_posts(
     except Exception as e:
         logger.error(f"Analysis error: {e}")
         return AnalysisResult(
-            summary=f"Ошибка анализа: {str(e)}",
+            summary=f"Ошибка анализа: {e!s}",
             selected_posts=[],
             total_analyzed=len(posts)
         )

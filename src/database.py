@@ -1,11 +1,10 @@
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import AsyncGenerator
 
 import aiosqlite
 
 from src.config import settings
-
 
 DB_PATH = Path(__file__).parent.parent / settings.DATABASE_PATH
 
@@ -101,8 +100,7 @@ async def get_user_channels(user_id: int) -> list[str]:
 
 async def remove_channel(user_id: int, channel_name: str) -> tuple[bool, str]:
     channel_name = channel_name.lower().strip()
-    if channel_name.startswith("@"):
-        channel_name = channel_name[1:]
+    channel_name = channel_name.removeprefix("@")
 
     async with get_connection() as conn:
         cursor = await conn.execute(

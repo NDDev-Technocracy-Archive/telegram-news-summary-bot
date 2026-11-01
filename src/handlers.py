@@ -4,20 +4,20 @@ from aiogram import Router
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 
+from src.analyzer import analyze_posts, format_analysis_result
+from src.channel_parser import (
+    parse_channel_link,
+    parse_multiple_channels,
+    verify_channel_exists,
+)
 from src.config import settings
 from src.database import (
-    get_or_create_user,
     add_channel,
+    get_or_create_user,
     get_user_channels,
     remove_channel,
 )
-from src.channel_parser import (
-    parse_channel_link,
-    verify_channel_exists,
-    parse_multiple_channels,
-)
-from src.date_parser import parse_user_input, format_date_range
-from src.analyzer import analyze_posts, format_analysis_result
+from src.date_parser import format_date_range, parse_user_input
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -55,7 +55,7 @@ HELP_TEXT = """
 
 @router.message(CommandStart())
 async def cmd_start(message: Message) -> None:
-    user_id = await get_or_create_user(message.from_user.id)
+    await get_or_create_user(message.from_user.id)
 
     await message.answer(
         f"👋 Привет, {message.from_user.first_name}!\n\n"
@@ -235,6 +235,6 @@ async def cmd_summary(message: Message) -> None:
     except Exception as e:
         logger.error(f"Summary error: {e}")
         await status_msg.edit_text(
-            f"❌ Произошла ошибка при анализе.\n\n"
-            f"Попробуйте позже или обратитесь к администратору."
+            "❌ Произошла ошибка при анализе.\n\n"
+            "Попробуйте позже или обратитесь к администратору."
         )
