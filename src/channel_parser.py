@@ -1,12 +1,9 @@
-import asyncio
 import logging
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Optional
 
-from playwright.async_api import async_playwright, Page, Browser
+from playwright.async_api import async_playwright
 
-from src.config import settings
 from src.date_parser import calculate_scroll_depth
 
 logger = logging.getLogger(__name__)
@@ -65,7 +62,7 @@ async def parse_channel(
     channel: str,
     start_date: date,
     end_date: date,
-    status_callback: Optional[callable] = None
+    status_callback: callable | None = None
 ) -> list[TelegramPost]:
     posts: list[TelegramPost] = []
     max_scrolls = calculate_scroll_depth(start_date)
@@ -110,7 +107,7 @@ async def parse_channel(
                         datetime_attr = await time_element.get_attribute("datetime")
                         if datetime_attr:
                             post_date = datetime.fromisoformat(
-                                datetime_attr.replace("Z", "+00:00")
+                                datetime_attr
                             ).date()
 
                             if post_date < start_date:
@@ -146,7 +143,7 @@ async def parse_channel(
                         continue
 
                     post_datetime = datetime.fromisoformat(
-                        datetime_attr.replace("Z", "+00:00")
+                        datetime_attr
                     )
                     post_date = post_datetime.date()
 
@@ -190,7 +187,7 @@ async def parse_multiple_channels(
     channels: list[str],
     start_date: date,
     end_date: date,
-    status_callback: Optional[callable] = None
+    status_callback: callable | None = None
 ) -> dict[str, list[TelegramPost]]:
     results: dict[str, list[TelegramPost]] = {}
 
