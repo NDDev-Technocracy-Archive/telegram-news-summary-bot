@@ -30,7 +30,8 @@
 4. Проверьте код:
    ```bash
    # Проверка синтаксиса
-   python -m py_compile src/*.py
+   just setup
+   just verify
    ```
 5. Закоммитьте с понятным сообщением:
    ```bash

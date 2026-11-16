@@ -1,8 +1,7 @@
 # Telegram News Summary Bot
 
-> **DEPRECATED.** This repository is archived and no longer maintained.
-> It is kept read-only for reference; its GDS anchor records
-> `lifecycle: archived` under `portfolio:archived-projects`.
+> This retired bot is kept as maintained reference source. Automated source and
+> security checks do not activate Telegram, scraping, model access or deployment.
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -171,6 +170,15 @@ User Command → handlers.py → channel_parser.py → analyzer.py → Response
 | Неделя | 40 |
 | 2 недели | 60 |
 | Месяц | 80-100 |
+
+## Source verification
+
+Run `just setup` once, then `just check` for offline Python syntax and the existing
+Ruff policy. `just test` byte-compiles the authored modules without importing the
+bot or contacting providers. `just verify` runs both. CI retains the previously
+qualified Python runtime and existing application requirements. These checks do
+not establish application behavior or live-provider compatibility. The shared
+daily scan complements the existing CodeQL/manual security workflow.
 
 ## Разработка
 
